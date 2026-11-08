@@ -13,6 +13,22 @@ Straightforward CKA practice labs derived from the CKA-PREP playlist. Every ques
 2. Clone this repo inside the environment.
 3. Use the helper scripts in `scripts/`:
 
+### Viewing Questions & Solutions
+- **Show question statement by number or name:**
+  ```bash
+  bash scripts/show.sh 1
+  # or from repository root:
+  bash show.sh 1
+  ```
+- **Show question statement with its solution notes:**
+  ```bash
+  bash show.sh 1 -s
+  ```
+- **List all questions:**
+  ```bash
+  bash show.sh --list
+  ```
+
 ### Running Lab Setups
 - **Run a single question:**
   ```bash

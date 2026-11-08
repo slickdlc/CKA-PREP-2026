@@ -172,14 +172,14 @@ for dir in "${SELECTED_DIRS[@]}"; do
   if [[ -z "$SETUP_SCRIPT" ]]; then
     echo -e "${YELLOW}[SKIP] No setup script (LabSetUp.bash or setup.sh) found in ${dir}${NC}"
     RESULTS+=("${dir}|SKIPPED|No setup script|0s")
-    ((SKIPPED_COUNT++))
+    SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
     continue
   fi
 
   if [[ "$DRY_RUN" == true ]]; then
     echo -e "${BLUE}[DRY-RUN] Would execute: bash ${SETUP_SCRIPT}${NC}"
     RESULTS+=("${dir}|DRY-RUN|Skipped execution|0s")
-    ((PASSED_COUNT++))
+    PASSED_COUNT=$((PASSED_COUNT + 1))
     continue
   fi
 
@@ -188,10 +188,8 @@ for dir in "${SELECTED_DIRS[@]}"; do
   START_TIME=$(date +%s)
   echo -e "Running setup: ${SETUP_SCRIPT} ..."
   
-  set +e
   bash "$SETUP_SCRIPT"
   EXIT_CODE=$?
-  set -e
 
   END_TIME=$(date +%s)
   DURATION=$((END_TIME - START_TIME))
@@ -199,11 +197,11 @@ for dir in "${SELECTED_DIRS[@]}"; do
   if [[ $EXIT_CODE -eq 0 ]]; then
     echo -e "${GREEN}[SUCCESS] Setup completed for ${dir} (${DURATION}s)${NC}"
     RESULTS+=("${dir}|SUCCESS|Completed|${DURATION}s")
-    ((PASSED_COUNT++))
+    PASSED_COUNT=$((PASSED_COUNT + 1))
   else
     echo -e "${RED}[FAILED] Setup exited with code ${EXIT_CODE} for ${dir} (${DURATION}s)${NC}"
     RESULTS+=("${dir}|FAILED|Exit code ${EXIT_CODE}|${DURATION}s")
-    ((FAILED_COUNT++))
+    FAILED_COUNT=$((FAILED_COUNT + 1))
 
     if [[ "$FAIL_FAST" == true ]]; then
       echo -e "${RED}Aborting further execution due to --fail-fast flag.${NC}"

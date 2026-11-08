@@ -104,13 +104,13 @@ if [[ "$SYNTAX_CHECK" == true ]]; then
   TOTAL_CHECKED=0
 
   while IFS= read -r script_file; do
-    ((TOTAL_CHECKED++))
+    TOTAL_CHECKED=$((TOTAL_CHECKED + 1))
     if bash -n "$script_file" 2>/dev/null; then
       echo -e "  - ${GREEN}[SYNTAX OK]${NC} $script_file"
     else
       echo -e "  - ${RED}[SYNTAX ERR]${NC} $script_file"
       bash -n "$script_file" || true
-      ((SYNTAX_ERRORS++))
+      SYNTAX_ERRORS=$((SYNTAX_ERRORS + 1))
     fi
   done < <(find . -type f \( -name "*.sh" -o -name "*.bash" \) -not -path "*/.git/*" | sort)
 
@@ -210,14 +210,14 @@ for dir in "${SELECTED_DIRS[@]}"; do
   if [[ -z "$VAL_SCRIPT" ]]; then
     echo -e "${YELLOW}[SKIP] No validation script (validate.sh) found in ${dir}${NC}"
     RESULTS+=("${dir}|SKIPPED|No validate.sh found|0s")
-    ((SKIPPED_COUNT++))
+    SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
     continue
   fi
 
   if [[ "$DRY_RUN" == true ]]; then
     echo -e "${BLUE}[DRY-RUN] Would execute: bash ${VAL_SCRIPT}${NC}"
     RESULTS+=("${dir}|DRY-RUN|Skipped execution|0s")
-    ((PASSED_COUNT++))
+    PASSED_COUNT=$((PASSED_COUNT + 1))
     continue
   fi
 
@@ -226,13 +226,11 @@ for dir in "${SELECTED_DIRS[@]}"; do
   START_TIME=$(date +%s)
   
   # Run validator inside the question directory context if needed
-  set +e
   (
     cd "$dir"
     bash "$(basename "$VAL_SCRIPT")"
   )
   EXIT_CODE=$?
-  set -e
 
   END_TIME=$(date +%s)
   DURATION=$((END_TIME - START_TIME))
@@ -240,11 +238,11 @@ for dir in "${SELECTED_DIRS[@]}"; do
   if [[ $EXIT_CODE -eq 0 ]]; then
     echo -e "${GREEN}[PASS] All checks passed for ${dir} (${DURATION}s)${NC}"
     RESULTS+=("${dir}|PASS|All checks passed|${DURATION}s")
-    ((PASSED_COUNT++))
+    PASSED_COUNT=$((PASSED_COUNT + 1))
   else
     echo -e "${RED}[FAIL] Validation failed (code ${EXIT_CODE}) for ${dir} (${DURATION}s)${NC}"
     RESULTS+=("${dir}|FAIL|Checks failed (code ${EXIT_CODE})|${DURATION}s")
-    ((FAILED_COUNT++))
+    FAILED_COUNT=$((FAILED_COUNT + 1))
 
     if [[ "$FAIL_FAST" == true ]]; then
       echo -e "${RED}Aborting further validation due to --fail-fast flag.${NC}"
