@@ -1,22 +1,69 @@
 # CKA Practice (Simple Edition)
 
-Straightforward CKA practice labs derived from the CKA-PREP playlist. Every question lives in its own folder with three bash files:
+Straightforward CKA practice labs derived from the CKA-PREP playlist. Every question lives in its own folder with:
 
-- `LabSetUp.bash` � copy/paste into Killercoda (or any Kubernetes cluster) to prep the environment.
-- `Questions.bash` � the scenario text plus the YouTube link for the walkthrough.
-- `SolutionNotes.bash` � a step-by-step solution when you need a hint.
+- `LabSetUp.bash` — copy/paste into Killercoda (or any Kubernetes cluster) to prep the environment.
+- `Questions.bash` — the scenario text plus the YouTube link for the walkthrough.
+- `SolutionNotes.bash` — a step-by-step solution when you need a hint.
+- `validate.sh` — automated validator verifying your solution against the cluster.
 
 ## How to Use
+
 1. Launch the CKA Killercoda playground or your own cluster.
 2. Clone this repo inside the environment.
-3. Pick a folder under `Question-*`.
-4. Run `./scripts/run-question.sh Question-01` or cd ~/CKA-PREP-2025-v2
-bash scripts/run-question.sh "Question-9 Network-Policy" to apply the setup and print the question text, or run `bash Question-01/LabSetUp.bash` manually.
-5. Work through the task, then consult `SolutionNotes.bash` if you need help.
+3. Use the helper scripts in `scripts/`:
+
+### Running Lab Setups
+- **Run a single question:**
+  ```bash
+  bash scripts/run-question.sh 1
+  # or
+  bash scripts/run-question.sh "Question-1 MariaDB-Persistent volume"
+  ```
+- **Run all question setups sequentially:**
+  ```bash
+  bash scripts/run-all.sh
+  # Options:
+  #   --dry-run      Preview setups without executing
+  #   --fail-fast    Stop at the first error
+  #   --list         List discovered questions and scripts
+  #   1 2 5          Run only questions 1, 2, and 5
+  ```
+
+### Validating Lab Solutions
+- **Validate a single question solution:**
+  ```bash
+  bash scripts/validate-question.sh 1
+  # or
+  bash scripts/validate-question.sh "Question-1 MariaDB-Persistent volume"
+  ```
+- **Validate all solutions across all questions:**
+  ```bash
+  bash scripts/validate-all.sh
+  # Options:
+  #   --dry-run      Preview validations without executing
+  #   --fail-fast    Stop at the first failing question
+  #   --syntax       Run syntax check (bash -n) on all scripts
+  #   --list         List validators for each question
+  ```
 
 ## Available Questions
 | Question | Topic | Video |
 |----------|-------|-------|
-| Question-01 | Install Argo CD using Helm without CRDs | https://youtu.be/8GzJ-x9ffE0 |
-
-More questions can be added by copying the template folder and dropping in the three bash files from the original collection.
+| Question-1 | MariaDB-Persistent volume | https://youtu.be/aXvvc1EB1zg |
+| Question-2 | ArgoCD | https://youtu.be/e0YGRSjb8CU |
+| Question-3 | Sidecar | https://youtu.be/3xraEGGQJDY |
+| Question-4 | Resource-Allocation | https://youtu.be/ZqGDdETii8c |
+| Question-5 | HPA | https://youtu.be/YGkARVFKtmM |
+| Question-6 | CRDs | https://youtu.be/SA1DzLQaDJs |
+| Question-7 | PriorityClass | https://youtu.be/CZzxGyF6OHc |
+| Question-8 | CNI & Network Policy | https://youtu.be/Uc04Ui4x3EM |
+| Question-9 | Cri-Dockerd | https://youtu.be/ybzo1vXiqjU |
+| Question-10 | Taints-Tolerations | https://youtu.be/oy6Mdqt1-jk |
+| Question-11 | Gateway-API | https://youtu.be/G9zispvOCHE |
+| Question-12 | Ingress | https://youtu.be/sy9zABvDedQ |
+| Question-13 | Network-Policy | https://youtu.be/rA8mXYTU0W8 |
+| Question-14 | Storage-Class | https://youtu.be/di7X7OHn2fc |
+| Question-15 | Etcd-Fix | https://youtu.be/IL448T6r8H4 |
+| Question-16 | NodePort | |
+| Question-17 | TLS-Config | |
