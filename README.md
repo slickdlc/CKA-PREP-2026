@@ -6,6 +6,7 @@ Straightforward CKA practice labs derived from the CKA-PREP playlist. Every ques
 - `Questions.bash` — the scenario text plus the YouTube link for the walkthrough.
 - `SolutionNotes.bash` — a step-by-step solution when you need a hint.
 - `validate.sh` — automated validator verifying your solution against the cluster.
+- `cleanup.sh` — automated cleanup script resetting cluster resources for this lab.
 
 ## How to Use
 
@@ -61,6 +62,22 @@ Straightforward CKA practice labs derived from the CKA-PREP playlist. Every ques
   #   --fail-fast    Stop at the first failing question
   #   --syntax       Run syntax check (bash -n) on all scripts
   #   --list         List validators for each question
+  ```
+
+### Cleaning Up Labs
+- **Clean a single question environment:**
+  ```bash
+  bash scripts/clean-question.sh 1
+  # or from repository root:
+  bash clean.sh 1
+  ```
+- **Clean all question environments:**
+  ```bash
+  bash scripts/clean-all.sh
+  # Options:
+  #   --dry-run      Preview cleanups without executing
+  #   --fail-fast    Stop at the first error
+  #   --list         List cleanup scripts available
   ```
 
 ## Available Questions
